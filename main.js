@@ -1,60 +1,54 @@
 let news = [];
 let menus = document.querySelectorAll(".menus button ");
 let searchButton = document.getElementById("search-button");
+let url;
+
+// 밖에서 함수 새로 만들고 블록범위에서 함수 호출 () 코드 리팩토링 작업
 
 menus.forEach((menu) =>
   menu.addEventListener("click", (event) => getNewsByTopic(event))
 );
 
-const getLatestNews = async () => {
-  let url = new URL(
-    `https://api.newscatcherapi.com/v2/latest_headlines?countries=KR&topic=business&page_size=1`
-  );
+const getNews = async () => {
   let header = new Headers({
-    "x-api-key": "urw5I22KMpeMjD6tQ-XAJ0vRheBH07DllSSXxeAwXLs",
+    "x-api-key": "Czoll_ir9p9WeABnPVPR2p2TKfKKloDPfubkN6E_A_0",
   });
   let response = await fetch(url, { headers: header });
   let data = await response.json();
   news = data.articles;
   console.log(news);
-
   render();
+};
+
+const getLatestNews = async () => {
+  url = new URL(
+    `https://api.newscatcherapi.com/v2/latest_headlines?countries=KR&topic=business&page_size=1`
+  );
+  getNews();
 };
 
 const getNewsByKeyword = async () => {
   let keyword = document.getElementById("search-input").value;
-  let url = new URL(
+  url = new URL(
     `https://api.newscatcherapi.com/v2/search?q=${keyword}&countries=KR&page_size=1`
   );
-  let header = new Headers({
-    "x-api-key": "urw5I22KMpeMjD6tQ-XAJ0vRheBH07DllSSXxeAwXLs",
-  });
-  let response = await fetch(url, { headers: header });
-  let data = await response.json();
-  news = data.articles;
-  render();
+  getNews();
 };
 
 const getNewsByTopic = async (event) => {
   console.log("타겟", event.target.textContent);
   let topic = event.target.textContent.toLowerCase();
-  let url = new URL(
+  url = new URL(
     `https://api.newscatcherapi.com/v2/latest_headlines?countries=KR&page_size=1&topic=${topic}`
   );
-  let header = new Headers({
-    "x-api-key": "urw5I22KMpeMjD6tQ-XAJ0vRheBH07DllSSXxeAwXLs",
-  });
-  let response = await fetch(url, { headers: header });
-  let data = await response.json();
-  news = data.articles;
-  render();
+  getNews();
 };
 
 const render = () => {
   let newsHTML = "";
   newsHTML = news
     .map((item) => {
-      return ` <div class="row news">
+      return `<div class="row news">
   <div class="col-lg-4">
     <img
       class="news-image-size"
