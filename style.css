@@ -36,3 +36,20 @@
 .news {
   border-bottom: 2px solid #e7e7e7;
 }
+
+#search-icon {
+  margin: 5px;
+  margin-left: 20px;
+  align-items: center;
+  padding: 3px;
+}
+
+.search-box {
+  display: flex;
+  padding: 0px;
+  margin-top: 15px;
+}
+
+.btn {
+  margin-left: 5px;
+}
