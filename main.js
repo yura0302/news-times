@@ -1,13 +1,19 @@
 let news = [];
 let menus = document.querySelectorAll(".menus button ");
 let searchButton = document.getElementById("search-button");
+let searchInput = document.getElementById("search-input");
 let url;
-
-// 밖에서 함수 새로 만들고 블록범위에서 함수 호출 () 코드 리팩토링 작업
 
 menus.forEach((menu) =>
   menu.addEventListener("click", (event) => getNewsByTopic(event))
 );
+
+searchInput.addEventListener("keypress", (event) => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    document.getElementById("search-button").click();
+  }
+});
 
 const getNews = async () => {
   let header = new Headers({
