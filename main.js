@@ -1,6 +1,8 @@
+const main = config.apikey;
+const BASE_URL = "https://api.newscatcherapi.com/v2";
+const menus = document.querySelectorAll(".menus button ");
+const searchButton = document.getElementById("search-button");
 let news = [];
-let menus = document.querySelectorAll(".menus button ");
-let searchButton = document.getElementById("search-button");
 let searchInput = document.getElementById("search-input");
 let url;
 
@@ -17,7 +19,7 @@ searchInput.addEventListener("keypress", (event) => {
 
 const getNews = async () => {
   let header = new Headers({
-    "x-api-key": "Czoll_ir9p9WeABnPVPR2p2TKfKKloDPfubkN6E_A_0",
+    "x-api-key": main,
   });
   let response = await fetch(url, { headers: header });
   let data = await response.json();
@@ -28,24 +30,21 @@ const getNews = async () => {
 
 const getLatestNews = async () => {
   url = new URL(
-    `https://api.newscatcherapi.com/v2/latest_headlines?countries=KR&topic=business&page_size=1`
+    `${BASE_URL}/latest_headlines?countries=KR&topic=business&page_size=1`
   );
   getNews();
 };
 
 const getNewsByKeyword = async () => {
   let keyword = document.getElementById("search-input").value;
-  url = new URL(
-    `https://api.newscatcherapi.com/v2/search?q=${keyword}&countries=KR&page_size=1`
-  );
+  url = new URL(`${BASE_URL}/search?q=${keyword}&countries=KR&page_size=1`);
   getNews();
 };
 
 const getNewsByTopic = async (event) => {
-  console.log("타겟", event.target.textContent);
   let topic = event.target.textContent.toLowerCase();
   url = new URL(
-    `https://api.newscatcherapi.com/v2/latest_headlines?countries=KR&page_size=1&topic=${topic}`
+    `${BASE_URL}/latest_headlines?countries=KR&page_size=1&topic=${topic}`
   );
   getNews();
 };
