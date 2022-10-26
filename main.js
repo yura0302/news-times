@@ -18,14 +18,26 @@ searchInput.addEventListener("keypress", (event) => {
 });
 
 const getNews = async () => {
-  let header = new Headers({
-    "x-api-key": main,
-  });
-  let response = await fetch(url, { headers: header });
-  let data = await response.json();
-  news = data.articles;
-  console.log(news);
-  render();
+  try {
+    let header = new Headers({
+      "x-api-key": main,
+    });
+    let response = await fetch(url, { headers: header });
+    let data = await response.json();
+    if (response.status == 200) {
+      news = data.articles;
+      console.log(news);
+      render();
+    } else {
+      throw new Error(data.message);
+    }
+    if (data.total_hits == 0) {
+      throw new Error("검색된 결과 값이 없습니다.");
+    }
+  } catch (error) {
+    console.log("잡힌 에러", error.message);
+    errorRender(error.message);
+  }
 };
 
 const getLatestNews = async () => {
@@ -84,6 +96,13 @@ const render = () => {
   console.log(newsHTML);
   document.getElementById("news-board").innerHTML = newsHTML;
 };
+
+const errorRender = (message) => {
+  let errorHTML = `<div class="alert alert-danger text-center" role="alert">
+  ${message}
+</div>`;
+  document.getElementById("news-board").innerHTML = errorHTML;
+};
+
 searchButton.addEventListener("click", getNewsByKeyword);
 getLatestNews();
-
